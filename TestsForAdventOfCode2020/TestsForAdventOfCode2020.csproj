@@ -53,6 +53,7 @@
     <Compile Include="Day2\TestPart2.cs" />
     <Compile Include="Day2\TestPasswordValidator.cs" />
     <Compile Include="Day4\TestPassport.cs" />
+    <Compile Include="Day5\TestBinaryBoarding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Day1\TestDay1Part2.cs" />
     <Compile Include="Day2\TestInputConverter.cs" />
