@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using AdventOfCode2020;
 
-namespace TestsForAdventOfCode2020
+namespace TestsForAdventOfCode2020.Day1
 {
     [TestClass]
     public class TestDay1Part2

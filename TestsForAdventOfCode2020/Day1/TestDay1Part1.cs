@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TestsForAdventOfCode2020
+namespace TestsForAdventOfCode2020.Day1
 {
     [TestClass]
     public class TestDay1Part1
