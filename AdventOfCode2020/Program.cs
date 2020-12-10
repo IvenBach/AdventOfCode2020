@@ -24,12 +24,13 @@ namespace AdventOfCode2020
             //var day4Part1 = Day4Part1_PassportProcessing(Day4Input());
             //var day4Part2 = Day4Part2_PassportProcessing(Day4Input());
 
-            var day5Sample = Day5Part1_BinaryBoarding(Day5SampleInput());
-            var day5Part1 = Day5Part1_BinaryBoarding(Day5Input());
+            var day5Sample = new Day5.BinaryBoarding(Day5SampleInput());
+            var day5Part1 = Day5Part1_BinaryBoarding(Day5Inputs());
+            var day5Part2 = Day5Part2_BinaryBoarding(Day5Inputs());
         }
 
         static string Day5SampleInput() => "FBFBBFFRLR";
-        static string Day5Input() => @"BBFFBFBRLL
+        static string[] Day5Inputs() => @"BBFFBFBRLL
 FFFFBFBRLR
 BFFBBFBRLR
 BFBBBFBLLL
@@ -1003,12 +1004,11 @@ FFBFFBFLRL
 FBBBBBBRLL
 BBFBFBBLLL
 FBBFFBBRRL
-FBBBBBBRRL";
+FBBBBBBRRL".Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
-        static int Day5Part1_BinaryBoarding(string rawInput)
+        static int Day5Part1_BinaryBoarding(IEnumerable<string> inputs)
         {
             int highestSeat = 0;
-            var inputs = rawInput.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (var input in inputs)
             {
@@ -1017,6 +1017,26 @@ FBBBBBBRRL";
             }
 
             return highestSeat;
+        }
+
+        static int Day5Part2_BinaryBoarding(IEnumerable<string> inputs)
+        {
+            var dict = new Dictionary<int, Day5.BinaryBoarding>();
+            foreach (var input in inputs)
+            {
+                var bb = new Day5.BinaryBoarding(input);
+                dict.Add(bb.Seat, bb);
+            }
+
+            foreach (var key in dict.Keys)
+            {
+                if (dict.ContainsKey(key + 2) && !dict.ContainsKey(key + 1))
+                {
+                    return key + 1;
+                }
+            }
+
+            return -1;
         }
 
         static string Day4SampleInput()
