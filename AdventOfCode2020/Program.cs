@@ -28,7 +28,8 @@ namespace AdventOfCode2020
             //var day5Part1 = Day5Part1_BinaryBoarding(Day5Inputs());
             //var day5Part2 = Day5Part2_BinaryBoarding(Day5Inputs());
 
-            var day6Part1 = Day6Part1_CustomsDeclarations(Day6Inputs());
+            //var day6Part1 = Day6Part1_CustomsDeclarations(Day6Inputs());
+            var day6Part2 = Day6Part2_CustomsDeclarations(Day6Inputs());
         }
 
         static string Day6Inputs() => @"fbqjswm
@@ -2317,10 +2318,16 @@ jtiunkpsroa";
 
         static int Day6Part1_CustomsDeclarations(string rawInput)
         {
-            var groups = Day6.CustomsDeclaration.ConvertRawInput(rawInput);
-            var count = Day6.CustomsDeclaration.GroupCount(groups);
+            var groups = Day6.CustomsDeclaration.ConvertToGroups(rawInput);
+            var count = Day6.CustomsDeclaration.CountWhereAnyoneAnsweredTrue(groups);
 
             return count;
+        }
+        static int Day6Part2_CustomsDeclarations(string rawInput)
+        {
+            var groups = Day6.CustomsDeclaration.ConvertToGroups(rawInput);
+
+            return -1;
         }
 
         static string Day5SampleInput() => "FBFBBFFRLR";

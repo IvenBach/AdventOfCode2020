@@ -11,26 +11,10 @@ namespace TestsForAdventOfCode2020.Day6
     public class TestCustomsDeclaration
     {
         [TestMethod]
-        public void Example_input_produces_exected_result()
+        public void Part1_input_produces_exected_result()
         {
-            const string input = @"abc
-
-a
-b
-c
-
-ab
-ac
-
-a
-a
-a
-a
-
-b";
-
-            var groups = AdventOfCode2020.Day6.CustomsDeclaration.ConvertRawInput(input);
-            var actual = AdventOfCode2020.Day6.CustomsDeclaration.GroupCount(groups);
+            var groups = AdventOfCode2020.Day6.CustomsDeclaration.ConvertToGroups(SampleInput());
+            var actual = AdventOfCode2020.Day6.CustomsDeclaration.CountWhereAnyoneAnsweredTrue(groups);
 
             Assert.AreEqual(11, actual);
         }
@@ -46,5 +30,29 @@ b";
 
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void Part2_input_produces_expected_result()
+        {
+            var groups = AdventOfCode2020.Day6.CustomsDeclaration.ConvertToGroups(SampleInput());
+            var actual = AdventOfCode2020.Day6.CustomsDeclaration.CountWhereEveryoneInGroupAnsweredYes(groups);
+            Assert.AreEqual(6, actual);
+        }
+
+        private string SampleInput() => @"abc
+
+a
+b
+c
+
+ab
+ac
+
+a
+a
+a
+a
+
+b";
     }
 }
