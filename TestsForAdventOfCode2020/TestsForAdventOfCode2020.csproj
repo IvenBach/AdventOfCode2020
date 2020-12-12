@@ -55,6 +55,8 @@
     <Compile Include="Day4\TestPassport.cs" />
     <Compile Include="Day5\TestBinaryBoarding.cs" />
     <Compile Include="Day6\TestCustomsDeclaration.cs" />
+    <Compile Include="Day7\TestHandyHaversack.cs" />
+    <Compile Include="Day7\TestHaversackRuleConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Day1\TestDay1Part2.cs" />
     <Compile Include="Day2\TestInputConverter.cs" />
