@@ -15,45 +15,54 @@ namespace TestsForAdventOfCode2020.Day7
         public void Output_matches_answer_for_example_input()
         {
             var rules = HaversackRuleConverter.ConvertToRules(Input);
+            const string lightRed = "lightred";
+            const string brightWhite = "brightwhite";
+            const string mutedYellow = "mutedyellow";
+            const string darkOrange = "darkorange";
+            const string shinyGold = "shinygold";
+            const string fadedBlue = "fadedblue";
+            const string darkOlive = "darkolive";
+            const string vibrantPlum = "vibrantplum";
+            const string dottedBlack = "dottedblack";
 
-            var redBag = rules["lightred"];
+            var redBag = rules[lightRed];
             Assert.AreEqual(2, redBag.Count);
-            Assert.IsTrue(redBag.Contains("brightwhite"));
-            Assert.IsTrue(redBag.Contains("mutedyellow"));
+            Assert.AreEqual(1, redBag[brightWhite]);
+            Assert.AreEqual(2, redBag[mutedYellow]);
 
-            var darkorange = rules["darkorange"];
+            var darkorange = rules[darkOrange];
             Assert.AreEqual(2, darkorange.Count);
-            Assert.IsTrue(darkorange.Contains("brightwhite"));
-            Assert.IsTrue(darkorange.Contains("mutedyellow"));
+            Assert.AreEqual(3, darkorange[brightWhite]);
+            Assert.AreEqual(4, darkorange[mutedYellow]);
 
-            var brightwhite = rules["brightwhite"];
+            var brightwhite = rules[brightWhite];
             Assert.AreEqual(1, brightwhite.Count);
-            Assert.IsTrue(brightwhite.Contains("shinygold"));
+            Assert.AreEqual(1, brightwhite[shinyGold]);
 
-            var mutedyellow = rules["mutedyellow"];
+            var mutedyellow = rules[mutedYellow];
             Assert.AreEqual(2, mutedyellow.Count);
-            Assert.IsTrue(mutedyellow.Contains("shinygold"));
-            Assert.IsTrue(mutedyellow.Contains("fadedblue"));
+            Assert.AreEqual(2, mutedyellow[shinyGold]);
+            Assert.AreEqual(9, mutedyellow[fadedBlue]);
 
-            var shinygold = rules["shinygold"];
+            var shinygold = rules[shinyGold];
             Assert.AreEqual(2, shinygold.Count);
-            Assert.IsTrue(shinygold.Contains("darkolive"));
-            Assert.IsTrue(shinygold.Contains("vibrantplum"));
+            Assert.AreEqual(1, shinygold[darkOlive]);
+            Assert.AreEqual(2, shinygold[vibrantPlum]);
 
-            var darkolive = rules["darkolive"];
+            var darkolive = rules[darkOlive];
             Assert.AreEqual(2, darkorange.Count);
-            Assert.IsTrue(darkolive.Contains("fadedblue"));
-            Assert.IsTrue(darkolive.Contains("dottedblack"));
+            Assert.AreEqual(3, darkolive[fadedBlue]);
+            Assert.AreEqual(4, darkolive[dottedBlack]);
 
-            var vibrantplum = rules["vibrantplum"];
+            var vibrantplum = rules[vibrantPlum];
             Assert.AreEqual(2, vibrantplum.Count);
-            Assert.IsTrue(vibrantplum.Contains("fadedblue"));
-            Assert.IsTrue(vibrantplum.Contains("dottedblack"));
+            Assert.AreEqual(5, vibrantplum[fadedBlue]);
+            Assert.AreEqual(6, vibrantplum[dottedBlack]);
 
-            var fadedblue = rules["fadedblue"];
+            var fadedblue = rules[fadedBlue];
             Assert.AreEqual(0, fadedblue.Count);
 
-            var dottedblack = rules["dottedblack"];
+            var dottedblack = rules[dottedBlack];
             Assert.AreEqual(0, dottedblack.Count);
         }
 

@@ -16,9 +16,9 @@ namespace AdventOfCode2020.Day7
         /// </summary>
         /// <param name="inputRules">An <see cref="IEnumerable{T}"/> containing the full list of rules.</param>
         /// <returns>Returns a <see cref="Dictionary{TKey, TValue}"/> of bags. Each bag has the directly nested bag within a <see cref="HashSet{T}"/></returns>
-        public static Dictionary<string, HashSet<string>> ConvertToRules(IEnumerable<string> inputRules)
+        public static Dictionary<string, Dictionary<string, int>> ConvertToRules(IEnumerable<string> inputRules)
         {
-            var rules = new Dictionary<string, HashSet<string>>(inputRules.Count());
+            var rules = new Dictionary<string, Dictionary<string, int>>(inputRules.Count());
             foreach (var rule in inputRules)
             {
                 var separators = new[] { " bags contain ", ".", ", " };
@@ -26,22 +26,28 @@ namespace AdventOfCode2020.Day7
 
                 var bagColor = parts[0].Replace(" ", string.Empty);
 
-                string[] containedColors = null;
+                //string[] containedColors = null;
+                var size = parts.Length - 1;
+                var nestedBags = new Dictionary<string, int>(size);
                 if (parts[1].StartsWith("no"))
                 {
-                    containedColors = Array.Empty<string>();
+                    //containedColors = Array.Empty<string>();
                 }
                 else
                 {
-                    Array.Resize(ref containedColors, parts.Length - 1);
-                    for (int i = 0; i < containedColors.Length; i++)
+                    //Array.Resize(ref containedColors, parts.Length - 1);
+
+                    //for (int i = 0; i < containedColors.Length; i++)
+                    for (int i = 0; i < size; i++)
                     {
                         var bag = parts[i + 1].Split(new[] { ' ' });
-                        containedColors[i] = bag[1] + bag[2];
+                        //containedColors[i] = bag[1] + bag[2];
+                        var color = bag[1] + bag[2];
+                        nestedBags.Add(color, int.Parse(bag[0]));
                     }
                 }
 
-                rules.Add(bagColor, new HashSet<string>(containedColors));
+                rules.Add(bagColor, nestedBags);
             }
 
             return rules;

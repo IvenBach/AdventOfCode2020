@@ -32,6 +32,7 @@ namespace AdventOfCode2020
             //var day6Part2 = Day6Part2_CustomsDeclarations(Day6Inputs());
 
             var day7Part1 = Day7Part1_BagsThatCanContain(Day7.HaversackRuleConverter.ConvertToRules(Day7Inputs()), "shinygold");
+            var day7Part2 = Day7Part2_The_number_of_bags_contained_by(Day7.HaversackRuleConverter.ConvertToRules(Day7Inputs()), "shinygold");
         }
 
         /// <summary>
@@ -634,20 +635,26 @@ dim red bags contain 4 drab plum bags, 4 shiny gold bags.
 wavy tomato bags contain 4 plaid bronze bags, 1 striped black bag.
 dark plum bags contain 5 shiny olive bags, 1 drab violet bag, 2 striped black bags, 1 faded coral bag.".Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
-        static int Day7Part1_BagsThatCanContain(Dictionary<string, HashSet<string>> rules, string bagColor)
+        static int Day7Part1_BagsThatCanContain(Dictionary<string, Dictionary<string, int>> rules, string bagColor)
         {
             int count = 0;
 
             foreach (var key in rules.Keys)
             {
                 var bag = new Day7.HandyHaversack(rules, key);
-                if (bag.CanCanContain(bagColor))
+                if (bag.CanContain(bagColor))
                 {
                     count++;
                 }
             }
 
             return count;
+        }
+        static int Day7Part2_The_number_of_bags_contained_by(Dictionary<string, Dictionary<string, int>> rules, string bagColor)
+        {
+            var container = new AdventOfCode2020.Day7.HandyHaversack(rules, bagColor);
+
+            return container.NestedCount();
         }
 
         static string Day6Inputs() => @"fbqjswm
