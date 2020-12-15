@@ -12,7 +12,7 @@ namespace AdventOfCode2020.Day8
         private int GlobalAccumulator = 0;
         public HandheldHalting(string[] commands)
         {
-            this.Commands = commands;
+            Commands = commands;
         }
 
         /// <summary>
@@ -69,6 +69,81 @@ namespace AdventOfCode2020.Day8
             {
                 string quantity = value.Split(new[] { ' ' })[1];
                 return int.Parse(quantity);
+            }
+        }
+
+
+        private bool ExecutionConcludesNormally(out int accumulator)
+        {
+            var hash = new HashSet<int>();
+            var executingLine = 0;
+            var hasPreviouslyExecuted = hash.Contains(executingLine);
+            while (!hasPreviouslyExecuted)
+            {
+                hash.Add(executingLine);
+                executingLine = ExecuteStatement(executingLine);
+
+                if (executingLine >= Commands.Length)
+                {
+                    accumulator = GlobalAccumulator;
+                    return true;
+                }
+
+                if (hash.Contains(executingLine))
+                {
+                    accumulator = -1;
+                    return false;
+                }
+            }
+
+            accumulator = -1;
+            return false;
+        }
+
+        /// <summary>
+        /// By changing a single statement from 'jmp' to 'nop' or 'nop' to 'jmp' execution
+        /// will conclude normaly by running through to the end of the commands.
+        /// </summary>
+        /// <param name="statements">Statements to be executed.</param>
+        /// <returns>Accumulator value after execution concludes.</returns>
+        public int ExecutionConcludesNormally()
+        {
+            for (int i = 0; i < Commands.Length; i++)
+            {
+                if (IsValidReplacement(Commands[i], out var oldOperand, out var newOperand))
+                {
+                    string[] updatedCommands = new string[Commands.Length];
+                    Array.Copy(Commands, updatedCommands, Commands.Length);
+                    updatedCommands[i] = updatedCommands[i].Replace(oldOperand, newOperand);
+                    var hh = new HandheldHalting(updatedCommands);
+                    if (hh.ExecutionConcludesNormally(out var value))
+                    {
+                        return value;
+                    }
+                }
+            }
+
+            return -1;
+
+            bool IsValidReplacement(string statement, out string oldOperand, out string newOperand)
+            {
+                if (statement.StartsWith("jmp"))
+                {
+                    oldOperand = "jmp";
+                    newOperand = "nop";
+                    return true;
+                }
+
+                if (statement.StartsWith("nop"))
+                {
+                    oldOperand = "nop";
+                    newOperand = "jmp";
+                    return true;
+                }
+
+                oldOperand = string.Empty;
+                newOperand = string.Empty;
+                return false;
             }
         }
     }

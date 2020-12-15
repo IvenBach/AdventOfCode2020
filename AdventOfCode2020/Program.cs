@@ -35,8 +35,21 @@ namespace AdventOfCode2020
             //var day7Part2 = Day7Part2_The_number_of_bags_contained_by(Day7.HaversackRuleConverter.ConvertToRules(Inputs.Day7()), "shinygold");
 
             var day8Part1 = Day8Part1_InfiniteLoop(Inputs.Day8());
+            var day8Part2 = Day8Part2_ExecutionConcludesNormally(Inputs.Day8());
         }
 
+        static int Day8Part2_ExecutionConcludesNormally(string[] statements)
+        {
+            var hh = new Day8.HandheldHalting(statements);
+            return hh.ExecutionConcludesNormally();
+        }
+
+        /// <summary>
+        /// Execution for the program is in an infinite loop. This will continue until just before the infinite
+        /// loop starts.
+        /// </summary>
+        /// <param name="statements">Statements to be executed.</param>
+        /// <returns>Value of the global accumulator before executing a statement for a second time.</returns>
         static int Day8Part1_InfiniteLoop(string[] statements)
         {
             var hh = new Day8.HandheldHalting(statements);
