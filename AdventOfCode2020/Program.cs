@@ -10,31 +10,38 @@ namespace AdventOfCode2020
     {
         static void Main(string[] args)
         {
-            var day1Part1 = Day1Part1(Inputs.Day1());
-            var day1Part2 = Day1Part2(Inputs.Day1());
+            //var day1Part1 = Day1Part1(Inputs.Day1());
+            //var day1Part2 = Day1Part2(Inputs.Day1());
 
-            var day2Part1 = Day2Part1_ValidPasswords(Inputs.Day2());
-            var day2Part2 = Day2Part2_ValidPasswords(Inputs.Day2());
+            //var day2Part1 = Day2Part1_ValidPasswords(Inputs.Day2());
+            //var day2Part2 = Day2Part2_ValidPasswords(Inputs.Day2());
 
-            var day3Sample = Day3Part2_TreesEncountered(Inputs.Day3SampleInput(), (1, 1), (3, 1), (5, 1), (7, 1), (1, 2));
-            var day3Part1 = Day3Part1_TreesEncountered(Inputs.Day3(), (3, 1));
-            var day3Part2 = Day3Part2_TreesEncountered(Inputs.Day3(), (1, 1), (3, 1), (5, 1), (7, 1), (1, 2));
+            //var day3Sample = Day3Part2_TreesEncountered(Inputs.Day3SampleInput(), (1, 1), (3, 1), (5, 1), (7, 1), (1, 2));
+            //var day3Part1 = Day3Part1_TreesEncountered(Inputs.Day3(), (3, 1));
+            //var day3Part2 = Day3Part2_TreesEncountered(Inputs.Day3(), (1, 1), (3, 1), (5, 1), (7, 1), (1, 2));
 
-            var day4Sample = Day4Part1_PassportProcessing(Inputs.Day4SampleInput());
-            var day4Part1 = Day4Part1_PassportProcessing(Inputs.Day4());
-            var day4Part2 = Day4Part2_PassportProcessing(Inputs.Day4());
+            //var day4Sample = Day4Part1_PassportProcessing(Inputs.Day4SampleInput());
+            //var day4Part1 = Day4Part1_PassportProcessing(Inputs.Day4());
+            //var day4Part2 = Day4Part2_PassportProcessing(Inputs.Day4());
 
-            var day5Sample = new Day5.BinaryBoarding(Inputs.Day5SampleInput);
-            var day5Part1 = Day5Part1_BinaryBoarding(Inputs.Day5());
-            var day5Part2 = Day5Part2_BinaryBoarding(Inputs.Day5());
+            //var day5Sample = new Day5.BinaryBoarding(Inputs.Day5SampleInput);
+            //var day5Part1 = Day5Part1_BinaryBoarding(Inputs.Day5());
+            //var day5Part2 = Day5Part2_BinaryBoarding(Inputs.Day5());
 
-            var day6Part1 = Day6Part1_CustomsDeclarations(Inputs.Day6());
-            var day6Part2 = Day6Part2_CustomsDeclarations(Inputs.Day6());
+            //var day6Part1 = Day6Part1_CustomsDeclarations(Inputs.Day6());
+            //var day6Part2 = Day6Part2_CustomsDeclarations(Inputs.Day6());
 
-            var day7Part1 = Day7Part1_BagsThatCanContain(Day7.HaversackRuleConverter.ConvertToRules(Inputs.Day7()), "shinygold");
-            var day7Part2 = Day7Part2_The_number_of_bags_contained_by(Day7.HaversackRuleConverter.ConvertToRules(Inputs.Day7()), "shinygold");
-        }        
+            //var day7Part1 = Day7Part1_BagsThatCanContain(Day7.HaversackRuleConverter.ConvertToRules(Inputs.Day7()), "shinygold");
+            //var day7Part2 = Day7Part2_The_number_of_bags_contained_by(Day7.HaversackRuleConverter.ConvertToRules(Inputs.Day7()), "shinygold");
 
+            var day8Part1 = Day8Part1_InfiniteLoop(Inputs.Day8());
+        }
+
+        static int Day8Part1_InfiniteLoop(string[] statements)
+        {
+            var hh = new Day8.HandheldHalting(statements);
+            return hh.AccumulatorValueBeforeRepeatingStatement();
+        }
         static int Day7Part1_BagsThatCanContain(Dictionary<string, Dictionary<string, int>> rules, string bagColor)
         {
             int count = 0;
