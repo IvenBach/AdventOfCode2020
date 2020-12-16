@@ -53,6 +53,7 @@
     <Compile Include="Day7\HandyHaversack.cs" />
     <Compile Include="Day7\HaversackRuleConverter.cs" />
     <Compile Include="Day8\HandheldHalting.cs" />
+    <Compile Include="Day9\EncodingError.cs" />
     <Compile Include="Inputs.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

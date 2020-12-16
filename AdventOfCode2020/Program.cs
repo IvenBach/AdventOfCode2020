@@ -34,8 +34,16 @@ namespace AdventOfCode2020
             //var day7Part1 = Day7Part1_BagsThatCanContain(Day7.HaversackRuleConverter.ConvertToRules(Inputs.Day7()), "shinygold");
             //var day7Part2 = Day7Part2_The_number_of_bags_contained_by(Day7.HaversackRuleConverter.ConvertToRules(Inputs.Day7()), "shinygold");
 
-            var day8Part1 = Day8Part1_InfiniteLoop(Inputs.Day8());
-            var day8Part2 = Day8Part2_ExecutionConcludesNormally(Inputs.Day8());
+            //var day8Part1 = Day8Part1_InfiniteLoop(Inputs.Day8());
+            //var day8Part2 = Day8Part2_ExecutionConcludesNormally(Inputs.Day8());
+
+            var day9Part1 = Day9Part1_Exploit_eXchange_Masking_Addition_System(Inputs.Day9(), 5);
+        }
+
+        static long Day9Part1_Exploit_eXchange_Masking_Addition_System(long[] inputs, int preambleLength)
+        {
+            var ee = new Day9.EncodingError(inputs);
+            return ee.FirstNumberNotComposedOfPreviousNumbers(preambleLength);
         }
 
         static int Day8Part2_ExecutionConcludesNormally(string[] statements)

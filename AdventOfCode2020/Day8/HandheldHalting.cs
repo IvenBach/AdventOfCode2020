@@ -8,7 +8,7 @@ namespace AdventOfCode2020.Day8
 {
     public class HandheldHalting
     {
-        private string[] Commands;
+        private readonly string[] Commands;
         private int GlobalAccumulator = 0;
         public HandheldHalting(string[] commands)
         {
