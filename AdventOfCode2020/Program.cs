@@ -37,9 +37,16 @@ namespace AdventOfCode2020
             //var day8Part1 = Day8Part1_InfiniteLoop(Inputs.Day8());
             //var day8Part2 = Day8Part2_ExecutionConcludesNormally(Inputs.Day8());
 
-            var day9Part1 = Day9Part1_Exploit_eXchange_Masking_Addition_System(Inputs.Day9(), 5);
+            var day9Part1 = Day9Part1_Exploit_eXchange_Masking_Addition_System(Inputs.Day9(), 25);
+            var day9Part2 = Day9Part2(Inputs.Day9(), 25);
         }
 
+        static long Day9Part2(long[] inputs, int preambleLength)
+        {
+            var ee = new Day9.EncodingError(inputs);
+            var part1 = ee.FirstNumberNotComposedOfPreviousNumbers(preambleLength);
+            return ee.Sum_of_values_that_equals_the_answer_in_part1_subsequently_summing_smallest_and_largest_elements(preambleLength, part1);
+        }
         static long Day9Part1_Exploit_eXchange_Masking_Addition_System(long[] inputs, int preambleLength)
         {
             var ee = new Day9.EncodingError(inputs);

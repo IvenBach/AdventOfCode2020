@@ -19,5 +19,16 @@ namespace TestsForAdventOfCode2020.Day9
 
             Assert.AreEqual(127, actual);
         }
+
+        [TestMethod]
+        public void Part2_output_matches_expected_on_sample()
+        {
+            var ee = new AdventOfCode2020.Day9.EncodingError(AdventOfCode2020.Inputs.Day9Sample());
+            const int preambleLength = 5;
+            var part1 = ee.FirstNumberNotComposedOfPreviousNumbers(preambleLength);
+            var actual = ee.Sum_of_values_that_equals_the_answer_in_part1_subsequently_summing_smallest_and_largest_elements(preambleLength, part1);
+
+            Assert.AreEqual(62, actual);
+        }
     }
 }

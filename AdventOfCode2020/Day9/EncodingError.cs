@@ -60,5 +60,61 @@ namespace AdventOfCode2020.Day9
                 return false;
             }
         }
+
+        public long Sum_of_values_that_equals_the_answer_in_part1_subsequently_summing_smallest_and_largest_elements(int preambleLength, long part1)
+        {
+            var sequence = Sum_of_elements_that_matches(part1);
+
+            long min = long.MaxValue;
+            long max = long.MinValue;
+            for (int i = 0; i < sequence.Length; i++)
+            {
+                min = Math.Min(min, sequence[i]);
+                max = Math.Max(max, sequence[i]);
+            }
+
+            return min + max;
+
+            long[] Sum_of_elements_that_matches(long value)
+            {
+                long sum = 0;
+                var lowerBound = 0;
+                var upperBound = 0;
+
+                while (sum <= part1)
+                {
+                    sum += Inputs[upperBound];
+                    upperBound++;
+                }
+                upperBound--;
+
+                if (sum == value)
+                {
+                    return Inputs.Skip(lowerBound)
+                        .Take(upperBound - lowerBound)
+                        .ToArray();
+                }
+
+
+                while (sum != value)
+                {
+                    if (sum > value)
+                    {
+                        sum -= Inputs[lowerBound];
+                        lowerBound++;
+                    }
+                    else
+                    {
+                        upperBound++;
+                        sum += Inputs[upperBound];
+                    }
+                }
+
+                long[] summedValues = new long[upperBound - lowerBound + 1];
+                Array.Copy(Inputs, lowerBound, summedValues, 0, summedValues.Length);
+
+                return summedValues;
+            }
+        }
     }
 }
