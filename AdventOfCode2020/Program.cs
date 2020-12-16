@@ -37,8 +37,16 @@ namespace AdventOfCode2020
             //var day8Part1 = Day8Part1_InfiniteLoop(Inputs.Day8());
             //var day8Part2 = Day8Part2_ExecutionConcludesNormally(Inputs.Day8());
 
-            var day9Part1 = Day9Part1_Exploit_eXchange_Masking_Addition_System(Inputs.Day9(), 25);
-            var day9Part2 = Day9Part2(Inputs.Day9(), 25);
+            //var day9Part1 = Day9Part1_Exploit_eXchange_Masking_Addition_System(Inputs.Day9(), 25);
+            //var day9Part2 = Day9Part2(Inputs.Day9(), 25);
+
+            var day10Part1 = Day10Part1(Inputs.Day10());
+        }
+
+        static int Day10Part1(int[] inputs)
+        {
+            var aa = new Day10.AdapterArray(inputs);
+            return aa.JoltageDifferences();
         }
 
         static long Day9Part2(long[] inputs, int preambleLength)
