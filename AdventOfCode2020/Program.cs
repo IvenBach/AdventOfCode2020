@@ -41,8 +41,14 @@ namespace AdventOfCode2020
             //var day9Part2 = Day9Part2(Inputs.Day9(), 25);
 
             var day10Part1 = Day10Part1(Inputs.Day10());
+            var day10Part2 = Day10Part2(Inputs.Day10());
         }
 
+        static long Day10Part2(int[] inputs)
+        {
+            var aa = new Day10.AdapterArray(inputs);
+            return aa.DistinctArangementCombination();
+        }
         static int Day10Part1(int[] inputs)
         {
             var aa = new Day10.AdapterArray(inputs);

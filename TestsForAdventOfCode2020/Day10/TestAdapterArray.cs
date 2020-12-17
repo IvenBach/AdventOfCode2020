@@ -27,5 +27,23 @@ namespace TestsForAdventOfCode2020.Day10
 
             Assert.AreEqual(220, actual);
         }
+
+        [TestMethod]
+        public void Part2_input_matches_expected_output()
+        {
+            var aa = new AdventOfCode2020.Day10.AdapterArray(AdventOfCode2020.Inputs.Day10Sample());
+            var actual = aa.DistinctArangementCombination();
+
+            Assert.AreEqual(8, actual);
+        }
+
+        [TestMethod]
+        public void Part2_extended_input_matches_expected_output()
+        {
+            var aa = new AdventOfCode2020.Day10.AdapterArray(AdventOfCode2020.Inputs.Day10ExtendedSample());
+            var actual = aa.DistinctArangementCombination();
+
+            Assert.AreEqual(19208, actual);
+        }
     }
 }
