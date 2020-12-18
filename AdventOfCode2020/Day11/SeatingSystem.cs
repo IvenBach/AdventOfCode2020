@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace AdventOfCode2020.Day11
@@ -10,15 +9,19 @@ namespace AdventOfCode2020.Day11
     {
         private readonly char[,] Inputs;
         private readonly char EmptySeat;
-        private readonly char OccupiedSeat;
         private readonly char Floor;
-        private const int AdjacentSeatLimit = 3;
-        public SeatingSystem(char[,] inputs, char emptySeat = 'L', char occupiedSeat = '#', char floor = '.')
+        private readonly char OccupiedSeat;
+        private readonly int AdjacentSeatLimit;
+        private readonly OccupancyConcern OccupancyConcern;
+
+        public SeatingSystem(char[,] inputs, OccupancyConcern occupancyConcern, int adjacentSeatLimit, char emptySeat = 'L', char occupiedSeat = '#', char floor = '.')
         {
             Inputs = inputs;
             EmptySeat = emptySeat;
-            OccupiedSeat = occupiedSeat;
             Floor = floor;
+            OccupiedSeat = occupiedSeat;
+            AdjacentSeatLimit = adjacentSeatLimit;
+            OccupancyConcern = occupancyConcern;
         }
 
         /// <summary>
@@ -28,14 +31,18 @@ namespace AdventOfCode2020.Day11
         /// <returns>Total seats occupied</returns>
         public int OccupiedSeats()
         {
-            var currentSeating = Inputs;
+            var currentSeating = (char[,])Inputs.Clone();
             int changeInSeats = 1;
             bool[,] needsUpdating;
-
+            int adjustment = 0;
             while (changeInSeats != 0)
             {
+                //SeatingPersister.WriteToFile(currentSeating, @"C:\Users\cpaustell\source\repos\AdventOfCode2020", $"Part2_seatMovement{adjustment}.txt");
+
                 (changeInSeats, needsUpdating) = SeatsToChange(currentSeating);
                 UpdateSeating(currentSeating, needsUpdating);
+
+                adjustment++;
             }
 
             int occupiedSeats = 0;
@@ -56,9 +63,6 @@ namespace AdventOfCode2020.Day11
             int seatsChanged = UpdateCorners(currentSeating, updates);
             seatsChanged += UpdateNonCornerPerimeter(currentSeating, updates);
             seatsChanged += UpdateInterior(currentSeating, updates);
-            // If a seat is empty(L) and there are no occupied seats adjacent to it, the seat becomes occupied.
-            //If a seat is occupied(#) and four or more seats adjacent to it are also occupied, the seat becomes empty.
-            // Otherwise, the seat's state does not change.
 
             return (seatsChanged, updates);
         }
@@ -74,39 +78,224 @@ namespace AdventOfCode2020.Day11
             int seatsChanged = 0;
             int lastRow = currentSeating.GetUpperBound(0);
             int lastColumn = currentSeating.GetUpperBound(1);
+
             //Top Left
-            if (currentSeating[0, 0] == EmptySeat && currentSeating[0, 1] != OccupiedSeat
-                && currentSeating[1, 0] != OccupiedSeat && currentSeating[1, 1] != OccupiedSeat)
+            if (currentSeating[0, 0] == EmptySeat)
             {
-                updatedSeating[0, 0] = true;
-                seatsChanged++;
+                if (OccupancyConcern == OccupancyConcern.Adjacent)
+                {
+                    if (currentSeating[0, 1] != OccupiedSeat && currentSeating[1, 0] != OccupiedSeat && currentSeating[1, 1] != OccupiedSeat)
+                    {
+                        updatedSeating[0, 0] = true;
+                        seatsChanged++;
+                    }
+                }
+                else
+                {
+                    var tuple = (Row: 0, Column: 0);
+                    if (!CanSeeOccupiedSeat(tuple, currentSeating, Direction.Right)
+                        && !CanSeeOccupiedSeat(tuple, currentSeating, Direction.RightAndDown)
+                        && !CanSeeOccupiedSeat(tuple, currentSeating, Direction.Down))
+                    {
+                        updatedSeating[tuple.Row, tuple.Column] = true;
+                        seatsChanged++;
+                    }
+                }
             }
 
             //TopRight
-            if (currentSeating[0, lastColumn] == EmptySeat && currentSeating[0, lastColumn - 1] != OccupiedSeat
-                && currentSeating[1, 0] != OccupiedSeat && currentSeating[lastRow - 1, lastColumn - 1] != OccupiedSeat)
+            if (currentSeating[0, lastColumn] == EmptySeat)
             {
-                updatedSeating[0, lastColumn] = true;
-                seatsChanged++;
+                if (OccupancyConcern == OccupancyConcern.Adjacent)
+                {
+                    if (currentSeating[0, lastColumn - 1] != OccupiedSeat && currentSeating[1, 0] != OccupiedSeat && currentSeating[lastRow - 1, lastColumn - 1] != OccupiedSeat)
+                    {
+                        updatedSeating[0, lastColumn] = true;
+                        seatsChanged++;
+                    }
+                }
+                else
+                {
+                    var tuple = (Row: 0, Column: lastColumn);
+                    if (!CanSeeOccupiedSeat(tuple, currentSeating, Direction.Left)
+                        && !CanSeeOccupiedSeat(tuple, currentSeating, Direction.LeftAndDown)
+                        && !CanSeeOccupiedSeat(tuple, currentSeating, Direction.Down))
+                    {
+                        updatedSeating[tuple.Row, tuple.Column] = true;
+                        seatsChanged++;
+                    }
+                }
             }
 
             //Bottom Left
-            if (currentSeating[lastRow, 0] == EmptySeat && currentSeating[lastRow, 1] != OccupiedSeat
-                && currentSeating[lastRow - 1, 0] != OccupiedSeat && currentSeating[lastRow - 1, lastColumn - 1] != OccupiedSeat)
+            if (currentSeating[lastRow, 0] == EmptySeat)
             {
-                updatedSeating[lastRow, 0] = true;
-                seatsChanged++;
+                if (OccupancyConcern == OccupancyConcern.Adjacent)
+                {
+                    if (currentSeating[lastRow, 1] != OccupiedSeat && currentSeating[lastRow - 1, 0] != OccupiedSeat && currentSeating[lastRow - 1, lastColumn - 1] != OccupiedSeat)
+                    {
+                        updatedSeating[lastRow, 0] = true;
+                        seatsChanged++;
+                    }
+                }
+                else
+                {
+                    var tuple = (Row: lastRow, Column: 0);
+                    if (!CanSeeOccupiedSeat(tuple, currentSeating, Direction.Up)
+                        && !CanSeeOccupiedSeat(tuple, currentSeating, Direction.RightAndUp)
+                        && !CanSeeOccupiedSeat(tuple, currentSeating, Direction.Right))
+                    {
+                        updatedSeating[tuple.Row, tuple.Column] = true;
+                        seatsChanged++;
+                    }
+                }
             }
 
             //Bottom Right
-            if (currentSeating[lastRow, lastColumn] == EmptySeat && currentSeating[lastRow, lastColumn - 1] != OccupiedSeat
-                && currentSeating[lastRow - 1, lastColumn] != OccupiedSeat && currentSeating[lastRow - 1, lastColumn - 1] != OccupiedSeat)
+            if (currentSeating[lastRow, lastColumn] == EmptySeat)
             {
-                updatedSeating[lastRow, lastColumn] = true;
-                seatsChanged++;
+                if (OccupancyConcern == OccupancyConcern.Adjacent)
+                {
+                    if (currentSeating[lastRow, lastColumn - 1] != OccupiedSeat && currentSeating[lastRow - 1, lastColumn] != OccupiedSeat && currentSeating[lastRow - 1, lastColumn - 1] != OccupiedSeat)
+                    {
+                        updatedSeating[lastRow, lastColumn] = true;
+                        seatsChanged++;
+                    }
+                }
+                else
+                {
+                    var tuple = (Row: lastRow, Column: lastColumn);
+                    if (!CanSeeOccupiedSeat(tuple, currentSeating, Direction.Up)
+                        && !CanSeeOccupiedSeat(tuple, currentSeating, Direction.LeftAndUp)
+                        && !CanSeeOccupiedSeat(tuple, currentSeating, Direction.Left))
+                    {
+                        updatedSeating[tuple.Row, tuple.Column] = true;
+                        seatsChanged++;
+                    }
+                }
             }
 
             return seatsChanged;
+        }
+
+        private bool CanSeeOccupiedSeat((int initialRow, int initialColumn) tuple, char[,] currentSeating, Direction direction)
+        {
+            var row = tuple.initialRow;
+            var column = tuple.initialColumn;
+            var lastRow = currentSeating.GetUpperBound(0);
+            var lastColumn = currentSeating.GetUpperBound(1);
+            switch (direction)
+            {
+                case Direction.Left:
+                    if (column == 0)
+                    {
+                        return false;
+                    }
+
+                    do
+                    {
+                        column--;
+                    } while (currentSeating[row, column] == Floor && column > 0) ;
+
+                    break;
+
+                case Direction.LeftAndUp:
+                    if (column == 0 || row == 0)
+                    {
+                        return false;
+                    }
+                    
+                    do
+                    {
+                        row--;
+                        column--;
+                    } while (currentSeating[row, column] == Floor && row > 0 && column > 0) ;
+
+                    break;
+
+                case Direction.Up:
+                    if (row == 0)
+                    {
+                        return false;
+                    }
+
+                    do
+                    {
+                        row--;
+                    } while (currentSeating[row, column] == Floor && row > 0) ;
+
+                    break;
+
+                case Direction.RightAndUp:
+                    if (row == 0 || column == lastColumn)
+                    {
+                        return false;
+                    }
+
+                    do
+                    {
+                        row--;
+                        column++;
+                    } while (currentSeating[row, column] == Floor && row > 0 && column < lastColumn) ;
+
+                    break;
+
+                case Direction.Right:
+                    if (column == lastColumn)
+                    {
+                        return false;
+                    }
+
+                    do
+                    {
+                        column++;
+                    } while (currentSeating[row, column] == Floor && column < lastColumn) ;
+
+                    break;
+
+                case Direction.RightAndDown:
+                    if (row == lastRow || column == lastColumn)
+                    {
+                        return false;
+                    }
+
+                    do
+                    {
+                        row++;
+                        column++;
+                    } while (currentSeating[row, column] == Floor && row < lastRow && column < lastColumn) ;
+
+                    break;
+
+                case Direction.Down:
+                    if (row == lastRow)
+                    {
+                        return false;
+                    }
+
+                    do
+                    {
+                        row++;
+                    } while (currentSeating[row, column] == Floor && row < lastRow) ;
+
+                    break;
+
+                case Direction.LeftAndDown:
+                    if (row == lastRow || column == 0)
+                    {
+                        return false;
+                    }
+
+                    do
+                    {
+                        row++;
+                        column--;
+                    } while (currentSeating[row, column] == Floor && row < lastRow && column > 0) ;
+                    
+                    break;
+            }
+                    
+            return currentSeating[row, column] == OccupiedSeat;
         }
 
         /// <summary>
@@ -124,67 +313,211 @@ namespace AdventOfCode2020.Day11
             //Top Row
             for (int i = 1; i < lastColumn; i++)
             {
-                if (currentSeating[0, i] == EmptySeat && AllAdjacentSeatsUnoccupied(currentSeating, i, PerimeterLocation.TopRow))
+                var tuple = (Row: 0, Column: i);
+                if (currentSeating[0, i] == EmptySeat)
                 {
-                    updatedSeating[0, i] = true;
-                    seatsChanged++;
+                    if (OccupancyConcern == OccupancyConcern.Adjacent)
+                    {
+                        if (AllAdjacentSeatsUnoccupied(currentSeating, i, PerimeterLocation.TopRow))
+                        {
+                            updatedSeating[tuple.Row, tuple.Column] = true;
+                            seatsChanged++;
+                        }
+                    }
+                    else
+                    {
+                        if (AllVisibleDirectionalSeatsUnoccupied(tuple, currentSeating))
+                        {
+                            updatedSeating[tuple.Row, tuple.Column] = true;
+                            seatsChanged++;
+                        }
+                    }
                 }
-                else if (currentSeating[0, i] == OccupiedSeat && AdjacentOccupiedSeats(currentSeating, i, PerimeterLocation.TopRow) > AdjacentSeatLimit)
+                else if (currentSeating[0, i] == OccupiedSeat)
                 {
-                    updatedSeating[0, i] = true;
-                    seatsChanged--;
-
+                    if (OccupancyConcern == OccupancyConcern.Adjacent)
+                    {
+                        if (AdjacentOccupiedSeats(currentSeating, i, PerimeterLocation.TopRow) >= AdjacentSeatLimit)
+                        {
+                            updatedSeating[tuple.Row, tuple.Column] = true;
+                            seatsChanged--;
+                        }
+                    }
+                    else
+                    {
+                        if (VisibleOccupiedSeats(tuple, currentSeating) >= AdjacentSeatLimit)
+                        {
+                            updatedSeating[tuple.Row, tuple.Column] = true;
+                            seatsChanged--;
+                        }
+                    }
                 }
             }
 
             //Left Column
             for (int i = 1; i < lastRow; i++)
             {
-                if (currentSeating[i, 0] == EmptySeat && AllAdjacentSeatsUnoccupied(currentSeating, i, PerimeterLocation.LeftColumn))
+                var tuple = (Row: i, Column: 0);
+                if (currentSeating[i, 0] == EmptySeat)
                 {
-                    updatedSeating[i, 0] = true;
-                    seatsChanged++;
+                    if (OccupancyConcern == OccupancyConcern.Adjacent)
+                    {
+                        if (AllAdjacentSeatsUnoccupied(currentSeating, i, PerimeterLocation.LeftColumn))
+                        {
+                            updatedSeating[tuple.Row, tuple.Column] = true;
+                            seatsChanged++;
+                        }
+                    }
+                    else
+                    {
+                        if (AllVisibleDirectionalSeatsUnoccupied(tuple, currentSeating))
+                        {
+                            updatedSeating[tuple.Row, tuple.Column] = true;
+                            seatsChanged++;
+                        }
+                    }
                 }
-                else if (currentSeating[i, 0] == OccupiedSeat && AdjacentOccupiedSeats(currentSeating, i, PerimeterLocation.LeftColumn) > AdjacentSeatLimit)
+                else if (currentSeating[i, 0] == OccupiedSeat)
                 {
-                    updatedSeating[i, 0] = true;
-                    seatsChanged--;
+                    if (OccupancyConcern == OccupancyConcern.Adjacent)
+                    {
+                        if (AdjacentOccupiedSeats(currentSeating, i, PerimeterLocation.LeftColumn) >= AdjacentSeatLimit)
+                        {
+                            updatedSeating[tuple.Row,tuple.Column] = true;
+                            seatsChanged--;
+                        }
+                    }
+                    else
+                    {
+                        if (VisibleOccupiedSeats(tuple, currentSeating) >= AdjacentSeatLimit)
+                        {
+                            updatedSeating[tuple.Row, tuple.Column] = true;
+                            seatsChanged--;
+                        }
+                    }
                 }
             }
 
             //Right Column
             for (int i = 1; i < lastRow; i++)
             {
-                if (currentSeating[i, lastColumn] == EmptySeat && AllAdjacentSeatsUnoccupied(currentSeating, i, PerimeterLocation.RightColumn))
+                var tuple = (Row: i, Column: lastColumn);
+                if (currentSeating[tuple.Row, tuple.Column] == EmptySeat)
                 {
-                    updatedSeating[i, lastColumn] = true;
-                    seatsChanged++;
+                    if (OccupancyConcern == OccupancyConcern.Adjacent)
+                    {
+                        if (AllAdjacentSeatsUnoccupied(currentSeating, tuple.Row, PerimeterLocation.RightColumn))
+                        {
+                            updatedSeating[tuple.Row, tuple.Column] = true;
+                            seatsChanged++;
+                        }
+                    }
+                    else
+                    {
+                        if (AllVisibleDirectionalSeatsUnoccupied(tuple, currentSeating))
+                        {
+                            updatedSeating[tuple.Row, tuple.Column] = true;
+                        }
+                    }
                 }
-                else if (currentSeating[i, lastColumn] == OccupiedSeat && AdjacentOccupiedSeats(currentSeating, i, PerimeterLocation.RightColumn) > AdjacentSeatLimit)
+                else if (currentSeating[i, lastColumn] == OccupiedSeat)
                 {
-                    updatedSeating[i, lastColumn] = true;
-                    seatsChanged++;
+                    if (OccupancyConcern == OccupancyConcern.Adjacent)
+                    {
+                        if (AdjacentOccupiedSeats(currentSeating, i, PerimeterLocation.RightColumn) >= AdjacentSeatLimit)
+                        {
+                            updatedSeating[i, lastColumn] = true;
+                            seatsChanged++;
+                        }
+                    }
+                    else
+                    {
+                        if (VisibleOccupiedSeats(tuple, currentSeating) >= AdjacentSeatLimit)
+                        {
+                            updatedSeating[tuple.Row, tuple.Column] = true;
+                            seatsChanged--;
+                        }
+                    }
                 }
             }
 
             //Bottom Row
             for (int i = 1; i < lastColumn; i++)
             {
-                if (currentSeating[lastRow, i] == EmptySeat && AllAdjacentSeatsUnoccupied(currentSeating, i, PerimeterLocation.BottomRow))
+                var tuple = (Row: lastRow, Column: i);
+                if (currentSeating[lastRow, i] == EmptySeat)
                 {
-                    updatedSeating[lastRow, i] = true;
-                    seatsChanged++;
+                    if (OccupancyConcern == OccupancyConcern.Adjacent)
+                    {
+                        if (AllAdjacentSeatsUnoccupied(currentSeating, i, PerimeterLocation.BottomRow))
+                        {
+                            updatedSeating[lastRow, i] = true;
+                            seatsChanged++;
+                        }
+                    }
+                    else
+                    {
+                        if (AllVisibleDirectionalSeatsUnoccupied(tuple, currentSeating))
+                        {
+                            updatedSeating[tuple.Row, tuple.Column] = true;
+                        }
+                    }
                 }
-                else if (currentSeating[lastRow, i] == OccupiedSeat && AdjacentOccupiedSeats(currentSeating, i, PerimeterLocation.BottomRow) > AdjacentSeatLimit)
+                else if (currentSeating[lastRow, i] == OccupiedSeat)
                 {
-                    updatedSeating[lastRow, i] = true;
-                    seatsChanged--;
+                    if (OccupancyConcern == OccupancyConcern.Adjacent)
+                    {
+                        if (AdjacentOccupiedSeats(currentSeating, i, PerimeterLocation.BottomRow) >= AdjacentSeatLimit)
+                        {
+                            updatedSeating[lastRow, i] = true;
+                            seatsChanged--;
+                        }
+                    }
+                    else
+                    {
+                        if (VisibleOccupiedSeats(tuple, currentSeating) >= AdjacentSeatLimit)
+                        {
+                            updatedSeating[tuple.Row, tuple.Column] = true;
+                            seatsChanged--;
+                        }
+                    }
                 }
             }
 
-            return seatsChanged;            
+            return seatsChanged;
         }
 
+        /// <summary>
+        /// Visible is defined as all members of <see cref="Direction"/> being checked for a non-floor seat.
+        /// </summary>
+        /// <param name="tuple">Tuple containing the row and columm pair.</param>
+        /// <param name="currentSeating">Seating checked as part of each move cycle.</param>
+        /// <returns></returns>
+        private int VisibleOccupiedSeats((int row, int column) tuple, char[,] currentSeating)
+        {
+            var count = CanSeeOccupiedSeat(tuple, currentSeating, Direction.Up) ? 1 : 0;
+            count += CanSeeOccupiedSeat(tuple, currentSeating, Direction.RightAndUp) ? 1 : 0;
+            count += CanSeeOccupiedSeat(tuple, currentSeating, Direction.Right) ? 1 : 0;
+            count += CanSeeOccupiedSeat(tuple, currentSeating, Direction.RightAndDown) ? 1 : 0;
+            count += CanSeeOccupiedSeat(tuple, currentSeating, Direction.Down) ? 1 : 0;
+            count += CanSeeOccupiedSeat(tuple, currentSeating, Direction.LeftAndDown) ? 1 : 0;
+            count += CanSeeOccupiedSeat(tuple, currentSeating, Direction.Left) ? 1 : 0;
+            count += CanSeeOccupiedSeat(tuple, currentSeating, Direction.LeftAndUp) ? 1 : 0;
+
+            return count;
+        }
+
+        private bool AllVisibleDirectionalSeatsUnoccupied((int row, int column) tuple, char[,] currentSeating)
+        {
+            return !CanSeeOccupiedSeat(tuple, currentSeating, Direction.Up)
+                && !CanSeeOccupiedSeat(tuple, currentSeating, Direction.RightAndUp)
+                && !CanSeeOccupiedSeat(tuple, currentSeating, Direction.Right)
+                && !CanSeeOccupiedSeat(tuple, currentSeating, Direction.RightAndDown)
+                && !CanSeeOccupiedSeat(tuple, currentSeating, Direction.Down)
+                && !CanSeeOccupiedSeat(tuple, currentSeating, Direction.LeftAndDown)
+                && !CanSeeOccupiedSeat(tuple, currentSeating, Direction.Left)
+                && !CanSeeOccupiedSeat(tuple, currentSeating, Direction.LeftAndUp);
+        }
         private bool AllAdjacentSeatsUnoccupied(char[,] currentSeating, int index, PerimeterLocation location)
         {
             switch (location)
@@ -272,15 +605,45 @@ namespace AdventOfCode2020.Day11
             {
                 for (int column = 1; column < lastColumn; column++)
                 {
-                    if (currentSeating[row, column] == EmptySeat && AllAdjacentSeatsUnoccupied(currentSeating, row, column))
+                    if (currentSeating[row, column] == EmptySeat)
                     {
-                        updatedSeating[row, column] = true;
-                        seatsChanged++;
+                        if (OccupancyConcern == OccupancyConcern.Adjacent)
+                        {
+                            if (AllAdjacentSeatsUnoccupied(currentSeating, row, column))
+                            {
+                                updatedSeating[row, column] = true;
+                                seatsChanged++;
+                            }
+                        }
+                        else
+                        {
+                            var tuple = (Row: row, Column: column);
+                            if (AllVisibleDirectionalSeatsUnoccupied(tuple, currentSeating))
+                            {
+                                updatedSeating[tuple.Row, tuple.Column] = true;
+                                seatsChanged++;
+                            }
+                        }
                     }
-                    else if (currentSeating[row,column]== OccupiedSeat && AdjacentOccupiedSeats(currentSeating, row, column) > AdjacentSeatLimit)
+                    else if (currentSeating[row, column] == OccupiedSeat)
                     {
-                        updatedSeating[row, column] = true;
-                        seatsChanged--;
+                        if (OccupancyConcern == OccupancyConcern.Adjacent)
+                        {
+                            if (AdjacentOccupiedSeats(currentSeating, row, column) >= AdjacentSeatLimit)
+                            {
+                                updatedSeating[row, column] = true;
+                                seatsChanged--;
+                            }
+                        }
+                        else
+                        {
+                            var tuple = (Row: row, Column: column);
+                            if (VisibleOccupiedSeats(tuple,currentSeating) >= AdjacentSeatLimit)
+                            {
+                                updatedSeating[tuple.Row, tuple.Column] = true;
+                                seatsChanged++;
+                            }
+                        }
                     }
                 }
             }
@@ -310,7 +673,7 @@ namespace AdventOfCode2020.Day11
             count += currentSeating[row, column + 1] == OccupiedSeat ? 1 : 0;
             count += currentSeating[row + 1, column - 1] == OccupiedSeat ? 1 : 0;
             count += currentSeating[row + 1, column] == OccupiedSeat ? 1 : 0;
-            count += currentSeating[row + 1, column + 1] == OccupiedSeat ? 1 : 0;;
+            count += currentSeating[row + 1, column + 1] == OccupiedSeat ? 1 : 0;
             return count;
         }
 
@@ -320,9 +683,9 @@ namespace AdventOfCode2020.Day11
             {
                 for (int column = 0; column <= currentSeating.GetUpperBound(1); column++)
                 {
-                    if (needsUpdating[row,column])
+                    if (needsUpdating[row, column])
                     {
-                        if (currentSeating[row,column] == EmptySeat)
+                        if (currentSeating[row, column] == EmptySeat)
                         {
                             currentSeating[row, column] = OccupiedSeat;
                         }
@@ -349,5 +712,23 @@ namespace AdventOfCode2020.Day11
             NonCornerPerimeter,
             Interior
         }
+
+        private enum Direction
+        {
+            Left,
+            LeftAndUp,
+            Up,
+            RightAndUp,
+            Right,
+            RightAndDown,
+            Down,
+            LeftAndDown
+        }
+    }
+
+    public enum OccupancyConcern
+    {
+        Adjacent,
+        Visible
     }
 }

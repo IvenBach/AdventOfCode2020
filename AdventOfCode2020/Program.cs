@@ -43,12 +43,18 @@ namespace AdventOfCode2020
             //var day10Part1 = Day10Part1(Inputs.Day10());
             //var day10Part2 = Day10Part2(Inputs.Day10());
 
-            var day11Part1 = Day11Part1(Inputs.Day11());
+            //var day11Part1 = Day11Part1(Inputs.Day11());
+            var day11Part2 = Day11Part2(Inputs.Day11());
         }
 
+        static long Day11Part2(char[,] inputs)
+        {
+            var ss = new Day11.SeatingSystem(inputs, Day11.OccupancyConcern.Visible, 5);
+            return ss.OccupiedSeats();
+        }
         static long Day11Part1(char[,] inputs)
         {
-            var ss = new Day11.SeatingSystem(inputs);
+            var ss = new Day11.SeatingSystem(inputs, Day11.OccupancyConcern.Adjacent, 4);
             return ss.OccupiedSeats();
         }
 
