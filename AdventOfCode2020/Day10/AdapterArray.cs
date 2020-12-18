@@ -59,9 +59,7 @@ namespace AdventOfCode2020.Day10
 
                 distinct *= SpanToDistinct(span);
 
-                i += span == 0
-                    ? 1
-                    : span;
+                i += Math.Max(1, span);
             }
 
             return distinct;

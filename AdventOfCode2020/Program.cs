@@ -40,8 +40,16 @@ namespace AdventOfCode2020
             //var day9Part1 = Day9Part1_Exploit_eXchange_Masking_Addition_System(Inputs.Day9(), 25);
             //var day9Part2 = Day9Part2(Inputs.Day9(), 25);
 
-            var day10Part1 = Day10Part1(Inputs.Day10());
-            var day10Part2 = Day10Part2(Inputs.Day10());
+            //var day10Part1 = Day10Part1(Inputs.Day10());
+            //var day10Part2 = Day10Part2(Inputs.Day10());
+
+            var day11Part1 = Day11Part1(Inputs.Day11());
+        }
+
+        static long Day11Part1(char[,] inputs)
+        {
+            var ss = new Day11.SeatingSystem(inputs);
+            return ss.OccupiedSeats();
         }
 
         static long Day10Part2(int[] inputs)
