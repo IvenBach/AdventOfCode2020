@@ -34,15 +34,10 @@ namespace AdventOfCode2020.Day11
             var currentSeating = (char[,])Inputs.Clone();
             int changeInSeats = 1;
             bool[,] needsUpdating;
-            int adjustment = 0;
             while (changeInSeats != 0)
             {
-                //SeatingPersister.WriteToFile(currentSeating, @"C:\Users\cpaustell\source\repos\AdventOfCode2020", $"Part2_seatMovement{adjustment}.txt");
-
                 (changeInSeats, needsUpdating) = SeatsToChange(currentSeating);
                 UpdateSeating(currentSeating, needsUpdating);
-
-                adjustment++;
             }
 
             int occupiedSeats = 0;
