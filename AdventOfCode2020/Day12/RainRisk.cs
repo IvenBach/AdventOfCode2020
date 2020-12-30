@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace AdventOfCode2020.Day12
 {
@@ -13,9 +14,73 @@ namespace AdventOfCode2020.Day12
         private int FacingDirection = 0;
         private int XAxis = 0;
         private int YAxis = 0;
+        private Regex ordinalRegex = new Regex(@"^(N|S|E|W)\d+");
+        private Regex turnRegex = new Regex(@"^(L|R)\d+");
         public RainRisk(IEnumerable<string> instructions)
         {
             Instructions = instructions;
+        }
+
+        private readonly (int XPosition, int YPosition) WaypointStart;
+        public RainRisk(IEnumerable<string> instructions, (int xPosition, int yPosition) waypointStart)
+        {
+            Instructions = instructions;
+            WaypointStart = waypointStart;
+        }
+
+        /// <summary>
+        /// Calculates the distance traveled by moving relative to the waypount.
+        /// </summary>
+        /// <returns>Sum of the absolute value of x and y distance from the origin.</returns>
+        public int WaypointMoving()
+        {
+            var waypoint = WaypointStart;
+
+            foreach (var instruction in Instructions)
+            {
+                var firstChar = Convert.ToChar(instruction.Substring(0, 1));
+
+                if (ordinalRegex.IsMatch(instruction))
+                {
+                    if (firstChar == 'N' || firstChar == 'S')
+                    {
+                        waypoint.YPosition += YAxisMovement(instruction);
+                    }
+                    else
+                    {
+                        waypoint.XPosition += XAxisMovement(instruction);
+                    }
+
+                    continue;
+                }
+
+                if (turnRegex.IsMatch(instruction))
+                {
+                    waypoint = RotateWaypoint(instruction, waypoint);
+
+                    continue;
+                }
+
+                var distance = int.Parse(instruction.Remove(0, 1));
+                XAxis += waypoint.XPosition * distance;
+                YAxis += waypoint.YPosition * distance;
+            }
+
+            return Math.Abs(XAxis) + Math.Abs(YAxis);
+        }
+
+        private (int XPosition, int YPosition) RotateWaypoint(string instruction, (int x, int y) waypoint)
+        {
+            if (instruction == "L90" || instruction == "R270")
+            {
+                return (-1 * waypoint.y, waypoint.x);
+            }
+            else if (instruction == "L270" || instruction == "R90")
+            {
+                return (waypoint.y, -1 * waypoint.x);
+            }
+
+            return (waypoint.x * -1, waypoint.y * -1);
         }
 
         /// <summary>
@@ -24,9 +89,6 @@ namespace AdventOfCode2020.Day12
         /// <returns>Sum of the absolute value of x and y distance from the origin.</returns>
         public int RectilinearDestance()
         {
-            var ordinalRegex = new System.Text.RegularExpressions.Regex(@"^(N|S|E|W)\d+");
-            var turnRegex = new System.Text.RegularExpressions.Regex(@"^(L|R)\d+");
-
             foreach (var instruction in Instructions)
             {
                 var firstChar = Convert.ToChar(instruction.Substring(0, 1));

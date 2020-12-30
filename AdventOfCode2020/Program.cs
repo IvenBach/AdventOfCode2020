@@ -46,7 +46,14 @@ namespace AdventOfCode2020
             //var day11Part1 = Day11Part1(Inputs.Day11());
             //var day11Part2 = Day11Part2(Inputs.Day11());
 
-            var day12Part1 = Day12Part1(Inputs.Day12());
+            //var day12Part1 = Day12Part1(Inputs.Day12());
+            var day12Part2 = Day12Part2(Inputs.Day12());
+        }
+
+        static int Day12Part2(IEnumerable<string> instructions)
+        {
+            var rr = new Day12.RainRisk(instructions, (10, 1));
+            return rr.WaypointMoving();
         }
 
         static int Day12Part1(IEnumerable<string> instructions)

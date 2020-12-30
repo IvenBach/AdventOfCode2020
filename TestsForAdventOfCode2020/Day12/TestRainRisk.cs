@@ -19,5 +19,16 @@ namespace TestsForAdventOfCode2020.Day12
 
             Assert.AreEqual(25, actual);
         }
+
+        [TestMethod]
+        public void Part2_example_matches_expected_output()
+        {
+            var waypointStart = (10, 1);
+            var rr = new AdventOfCode2020.Day12.RainRisk(AdventOfCode2020.Inputs.Day12Sample(), waypointStart);
+
+            var actual = rr.WaypointMoving();
+
+            Assert.AreEqual(286, actual);
+        }
     }
 }
