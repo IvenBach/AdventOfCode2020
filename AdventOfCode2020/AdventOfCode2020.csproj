@@ -46,6 +46,7 @@
     <Compile Include="Day10\AdapterArray.cs" />
     <Compile Include="Day11\SeatingPersister.cs" />
     <Compile Include="Day11\SeatingSystem.cs" />
+    <Compile Include="Day12\RainRisk.cs" />
     <Compile Include="Day1\Day1Part1.cs" />
     <Compile Include="Day1\Day1Part2.cs" />
     <Compile Include="Day2\InputConverter.cs" />

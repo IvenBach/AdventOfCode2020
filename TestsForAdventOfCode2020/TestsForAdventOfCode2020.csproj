@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Day10\TestAdapterArray.cs" />
+    <Compile Include="Day12\TestRainRisk.cs" />
     <Compile Include="Day1\TestDay1Part1.cs" />
     <Compile Include="Day2\TestPart2.cs" />
     <Compile Include="Day2\TestPasswordValidator.cs" />
