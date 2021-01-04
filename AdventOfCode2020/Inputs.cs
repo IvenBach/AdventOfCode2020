@@ -9007,6 +9007,31 @@ F7
 R90
 F11";
 
+        public static (int EarliestTimpestamp, IEnumerable<int> InServiceBuses) Day13() => Day13Converter(Day13Raw);
+
+        private const string Day13Raw = @"1000053
+19,x,x,x,x,x,x,x,x,x,x,x,x,37,x,x,x,x,x,523,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,x,13,x,x,x,x,23,x,x,x,x,x,29,x,547,x,x,x,x,x,x,x,x,x,41,x,x,x,x,x,x,17";
+
+        public static (int EarliestTimpestamp, IEnumerable<int> InServiceBuses) Day13Sample()
+        {
+            return Day13Converter(Day13SampleRaw);
+        }
+
+        private static (int EarliestTimpestamp, IEnumerable<int> InServiceBuses) Day13Converter(string raw)
+        {
+            var crude = RawConverter(raw, new[] { Environment.NewLine });
+            int timestamp = int.Parse(crude[0]);
+
+            var buses = crude[1].Split(new[] { ',' })
+                .Where(s => s != "x")
+                .Select(s => int.Parse(s));
+
+            return (timestamp, buses);
+        }
+
+        private const string Day13SampleRaw = @"939
+7,13,x,x,59,x,31,19";
+
         /// <summary>
         /// Method that takes the raw input of <see cref="Environment.NewLine"/> separated values and 
         /// converts it into an <see cref="IEnumerable{T}"/> list.
