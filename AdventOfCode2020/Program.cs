@@ -50,6 +50,13 @@ namespace AdventOfCode2020
             //var day12Part2 = Day12Part2(Inputs.Day12());
 
             var day13Part1 = Day13Part1(Inputs.Day13());
+            var day13Part2 = Day13Part2(Inputs.Day13());
+        }
+
+        static ulong Day13Part2((int timestamp, IEnumerable<string> buses) tuple)
+        {
+            var ss = new Day13.ShuttleSearch(tuple);
+            return ss.SequentialMinuteDeparture();
         }
 
         /// <summary>
@@ -57,7 +64,7 @@ namespace AdventOfCode2020
         /// </summary>
         /// <param name="tuple">Tuple containing the initial timestamp and list of active busses.</param>
         /// <returns>Value of the bus ID multiplied by its wait time.</returns>
-        static int Day13Part1((int Timestamp, IEnumerable<int> buses) tuple)
+        static int Day13Part1((int Timestamp, IEnumerable<string> buses) tuple)
         {
             var ss = new Day13.ShuttleSearch(tuple);
             var (id, waitTime) = ss.EarliestBus();
