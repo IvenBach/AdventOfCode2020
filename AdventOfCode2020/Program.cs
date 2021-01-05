@@ -49,8 +49,17 @@ namespace AdventOfCode2020
             //var day12Part1 = Day12Part1(Inputs.Day12());
             //var day12Part2 = Day12Part2(Inputs.Day12());
 
-            var day13Part1 = Day13Part1(Inputs.Day13());
-            var day13Part2 = Day13Part2(Inputs.Day13());
+            //var day13Part1 = Day13Part1(Inputs.Day13());
+            //var day13Part2 = Day13Part2(Inputs.Day13());
+
+            var day14Part1 = Day14Part1(Inputs.Day14());
+        }
+
+        static long Day14Part1(IEnumerable<string> inputs)
+        {
+            var dd = new Day14.DockingData(inputs);
+
+            return dd.SumValues();
         }
 
         static ulong Day13Part2((int timestamp, IEnumerable<string> buses) tuple)
