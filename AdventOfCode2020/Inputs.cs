@@ -9007,6 +9007,7 @@ F7
 R90
 F11";
 
+<<<<<<< Updated upstream
         public static (int EarliestTimpestamp, IEnumerable<string> InServiceBuses) Day13() => Day13Converter(Day13Raw);
 
         private const string Day13Raw = @"1000053
@@ -9029,6 +9030,8 @@ F11";
 
         private const string Day13SampleRaw = @"939
 7,13,x,x,59,x,31,19";
+
+        public const string Day14SampleMask = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X";
 
         /// <summary>
         /// Method that takes the raw input of <see cref="Environment.NewLine"/> separated values and 
