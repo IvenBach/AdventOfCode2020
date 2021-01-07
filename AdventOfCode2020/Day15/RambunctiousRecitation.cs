@@ -42,6 +42,7 @@ namespace AdventOfCode2020.Day15
                             }
                             else
                             {
+
                                 twoBack.Add(delta, oneBack[delta]);
                             }
 
@@ -58,8 +59,20 @@ namespace AdventOfCode2020.Day15
                     {
                         if (!twoBack.ContainsKey(lastSpoken))
                         {
-                            twoBack[0] = oneBack[0];
-                            oneBack[0] = turn;
+                            if (oneBack.ContainsKey(0) && twoBack.ContainsKey(0))
+                            {
+                                twoBack[0] = oneBack[0];
+                                oneBack[0] = turn;
+                            }
+                            else if (oneBack.ContainsKey(0) && !twoBack.ContainsKey(0))
+                            {
+                                twoBack.Add(0, oneBack[0]);
+                                oneBack[0] = turn;
+                            }
+                            else
+                            {
+                                oneBack.Add(0, turn);
+                            }
                         }
                         else
                         {

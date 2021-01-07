@@ -9590,6 +9590,9 @@ mem[7] = 101
 mem[8] = 0";
         public const string Day14SampleMask = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X";
 
+        public static IEnumerable<int> Day15() => RawConverter(Day15Raw, new[] { "," })
+            .Select(s => int.Parse(s));
+        private const string Day15Raw = "9,12,1,4,17,0,18";
         public static IEnumerable<int> Day15Sample() => RawConverter(Day15SampleRaw, new[] { "," })
             .Select(s => int.Parse(s));
         private const string Day15SampleRaw = "0,3,6";
