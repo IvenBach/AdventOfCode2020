@@ -49,6 +49,7 @@
     <Compile Include="Day12\RainRisk.cs" />
     <Compile Include="Day13\ShuttleSearch.cs" />
     <Compile Include="Day14\DockingData.cs" />
+    <Compile Include="Day15\RambunctiousRecitation.cs" />
     <Compile Include="Day1\Day1Part1.cs" />
     <Compile Include="Day1\Day1Part2.cs" />
     <Compile Include="Day2\InputConverter.cs" />

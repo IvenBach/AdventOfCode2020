@@ -52,7 +52,9 @@ namespace AdventOfCode2020
             //var day13Part1 = Day13Part1(Inputs.Day13());
             //var day13Part2 = Day13Part2(Inputs.Day13());
 
-            var day14Part1 = Day14Part1(Inputs.Day14());
+            //var day14Part1 = Day14Part1(Inputs.Day14());
+
+            
         }
 
         static long Day14Part1(IEnumerable<string> inputs)

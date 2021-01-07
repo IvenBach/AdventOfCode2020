@@ -9590,6 +9590,10 @@ mem[7] = 101
 mem[8] = 0";
         public const string Day14SampleMask = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXX1XXXX0X";
 
+        public static IEnumerable<int> Day15Sample() => RawConverter(Day15SampleRaw, new[] { "," })
+            .Select(s => int.Parse(s));
+        private const string Day15SampleRaw = "0,3,6";
+
         /// <summary>
         /// Method that takes the raw input of <see cref="Environment.NewLine"/> separated values and 
         /// converts it into an <see cref="IEnumerable{T}"/> list.
