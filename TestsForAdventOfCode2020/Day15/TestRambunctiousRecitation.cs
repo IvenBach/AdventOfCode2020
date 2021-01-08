@@ -50,5 +50,23 @@ namespace TestsForAdventOfCode2020.Day15
 
             Assert.AreEqual(expected, actual);
         }
+
+        [Test]
+        [TestCase("0,3,6", 30000000, 175594)]
+        [TestCase("1,3,2", 30000000, 2578)]
+        [TestCase("2,1,3", 30000000, 3544142)]
+        [TestCase("1,2,3", 30000000, 261214)]
+        [TestCase("2,3,1", 30000000, 6895259)]
+        [TestCase("3,2,1", 30000000, 18)]
+        [TestCase("3,1,2", 30000000, 362)]
+
+        public void Part2_turns_match_expected(string input, int turn, int expected)
+        {
+            var rr = new AdventOfCode2020.Day15.RambunctiousRecitation(input.Split(new[] { ',' }).Select(s => int.Parse(s)));
+
+            var actual = rr.NthSpokenNumber(turn);
+
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
