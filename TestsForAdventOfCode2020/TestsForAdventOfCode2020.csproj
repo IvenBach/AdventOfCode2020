@@ -69,6 +69,7 @@
     <Compile Include="Day07\TestHaversackRuleConverter.cs" />
     <Compile Include="Day08\TestHandheldHalting.cs" />
     <Compile Include="Day09\TestEncodingError.cs" />
+    <Compile Include="Day16\TestTicketTranslation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Day01\TestDay1Part2.cs" />
     <Compile Include="Day02\TestInputConverter.cs" />

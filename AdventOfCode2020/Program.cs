@@ -54,8 +54,17 @@ namespace AdventOfCode2020
 
             //var day14Part1 = Day14Part1(Inputs.Day14());
 
-            var day15Part1 = Day15Part1(Inputs.Day15(), 2020);
-            var day15Part2 = Day15Part1(Inputs.Day15(), 30000000);
+            //var day15Part1 = Day15Part1(Inputs.Day15(), 2020);
+            //var day15Part2 = Day15Part1(Inputs.Day15(), 30000000);
+
+            var day16Part1 = Day16Part1(Inputs.Day16);
+        }
+
+        static int Day16Part1(string input)
+        {
+            var tt = new AdventOfCode2020.Day16.TicketTranslation(input);
+
+            return tt.ErrorRate();
         }
 
         static int Day15Part1(IEnumerable<int> inputs, int turn)

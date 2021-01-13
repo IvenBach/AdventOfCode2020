@@ -50,6 +50,7 @@
     <Compile Include="Day13\ShuttleSearch.cs" />
     <Compile Include="Day14\DockingData.cs" />
     <Compile Include="Day15\RambunctiousRecitation.cs" />
+    <Compile Include="Day16\TicketTranslation.cs" />
     <Compile Include="Day1\Day1Part1.cs" />
     <Compile Include="Day1\Day1Part2.cs" />
     <Compile Include="Day02\InputConverter.cs" />
