@@ -13,7 +13,7 @@ namespace TestsForAdventOfCode2020.Day16
         [Test]
         public void Part1_sample_input_matches_expected_output()
         {
-            var tt = new AdventOfCode2020.Day16.TicketTranslation(AdventOfCode2020.Inputs.Day16SampleRaw);
+            var tt = new AdventOfCode2020.Day16.TicketTranslation(AdventOfCode2020.Inputs.Day16Part1SampleRaw);
 
             var actual = tt.ErrorRate();
 
@@ -28,6 +28,16 @@ namespace TestsForAdventOfCode2020.Day16
             var actual = tt.ErrorRate();
 
             Assert.AreEqual(21071, actual);
+        }
+
+        [Test]
+        public void Part2_multiplying_departure_values()
+        {
+            var tt = new AdventOfCode2020.Day16.TicketTranslation(AdventOfCode2020.Inputs.Day16);
+
+            var actual = tt.DepartureValueProduct("departure");
+
+            Assert.AreEqual(-1, actual);
         }
     }
 }

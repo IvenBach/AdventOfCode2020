@@ -9859,7 +9859,18 @@ nearby tickets:
 837,824,733,264,289,393,152,341,205,144,565,693,125,773,731,642,871,719,732,654
 350,879,381,346,188,897,247,700,96,261,928,539,346,610,658,809,567,224,258,358";
 
-        public const string Day16SampleRaw = @"class: 1-3 or 5-7
+        public const string Day16Part2SampleRaw = @"class: 0-1 or 4-19
+row: 0-5 or 8-19
+seat: 0-13 or 16-19
+
+your ticket:
+11,12,13
+
+nearby tickets:
+3,9,18
+15,1,5
+5,14,9";
+        public const string Day16Part1SampleRaw = @"class: 1-3 or 5-7
 row: 6-11 or 33-44
 seat: 13-40 or 45-50
 
