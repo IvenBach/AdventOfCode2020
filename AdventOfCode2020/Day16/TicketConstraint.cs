@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace AdventOfCode2020.Day16
 {
+    [DebuggerDisplay("Category={Category}, Lower={LowerSpan}, Upper={UpperSpan}")]
     public class TicketConstraint
     {
         public string Category { get; }
@@ -19,6 +21,7 @@ namespace AdventOfCode2020.Day16
         }
     }
 
+    [DebuggerDisplay("{LowerValue}-{UpperValue}")]
     public class TicketSpan
     {
         public int LowerValue { get; }
