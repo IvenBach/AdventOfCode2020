@@ -37,7 +37,7 @@ namespace TestsForAdventOfCode2020.Day16
 
             var actual = tt.DepartureValueProduct("departure");
 
-            Assert.AreEqual(-1, actual);
+            Assert.AreEqual(3429967441937UL, actual);
         }
     }
 }

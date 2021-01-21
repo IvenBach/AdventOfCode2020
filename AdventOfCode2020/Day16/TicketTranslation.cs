@@ -70,7 +70,7 @@ namespace AdventOfCode2020.Day16
                 if (!IsValidTicket(ticket, Constraints, out int? invalid))
                 {
                     errorRate += invalid.Value;
-                }                
+                }
             }
 
             return errorRate;
@@ -85,7 +85,6 @@ namespace AdventOfCode2020.Day16
                     invalidValue = value;
                     return false;
                 }
-                
             }
 
             invalidValue = null;
@@ -106,7 +105,7 @@ namespace AdventOfCode2020.Day16
             }
         }
 
-        public int DepartureValueProduct(string category)
+        public ulong DepartureValueProduct(string categoryPrefix)
         {
             var validTickets = new List<Ticket>();
             foreach (var ticket in NearbyTickets)
@@ -117,53 +116,51 @@ namespace AdventOfCode2020.Day16
                 }
             }
 
-            var categoryConstraint = Constraints.Where(t => t.Category.StartsWith(category));
-            var multiplyMyTicketIndices = new List<int>();
-            var ticketValueIndex = 0;
-            var retVal = 1;
-            while (ticketValueIndex < validTickets[0].Values.Length)
+            var categoryConstraints = Constraints.ToArray();
+            var passingCategories = new List<ValueTuple<string, List<int>>>(categoryConstraints.Length);
+            foreach (var categoryConstraint in categoryConstraints)
             {
-                if (ForAllTicketsPassesConstraintsAtTicketValueIndex(ticketValueIndex))
+                var passingIndices = new List<int>();
+                for (int ticketIndex = 0; ticketIndex < NearbyTickets[0].Values.Length; ticketIndex++)
                 {
-                    multiplyMyTicketIndices.Add(ticketValueIndex);
+                    if (AllTicketValuesPassConstraintAtIndex(categoryConstraint, ticketIndex, validTickets))
+                    {
+                        passingIndices.Add(ticketIndex);
+                    }                    
                 }
 
-                ticketValueIndex++;
+                passingCategories.Add((categoryConstraint.Category, passingIndices));
             }
 
-            foreach (var val in multiplyMyTicketIndices)
+            var departures = passingCategories
+                .OrderBy(tuple => tuple.Item2.Count)
+                .Where(tuple => tuple.Item1.StartsWith(categoryPrefix));
+
+            var elementBeforeFirstDepartureIndex = passingCategories.Where(tuple => tuple.Item2.Count == departures.First().Item2.Count - 1);
+
+            var indices = departures.Last().Item2.Except(elementBeforeFirstDepartureIndex.First().Item2);
+            var retVal = 1UL;
+
+            foreach (var i in indices)
             {
-                retVal *= val;
+                retVal *= (ulong)PersonalTicket.Values[i];
             }
 
             return retVal;
 
-            bool ForAllTicketsPassesConstraintsAtTicketValueIndex(int index)
+            bool AllTicketValuesPassConstraintAtIndex(TicketConstraint constraint, int ticketIndex, List<Ticket> valdTickets)
             {
-                foreach (var ticket in validTickets)
+                foreach (var ticket in valdTickets)
                 {
-                    if (!PassesAllConstraints(ticket.Values[index], categoryConstraint))
+                    var ticketIndexValue = ticket.Values[ticketIndex];
+                    if (!(constraint.LowerSpan.LowerValue <= ticketIndexValue && ticketIndexValue <= constraint.LowerSpan.UpperValue
+                        || constraint.UpperSpan.LowerValue <= ticketIndexValue && ticketIndexValue <= constraint.UpperSpan.UpperValue))
                     {
                         return false;
                     }
+
                 }
 
-                return true;
-            }
-
-            bool PassesAllConstraints(int ticket, IEnumerable<TicketConstraint> categoryConstraints)
-            {
-                foreach (var constraint in categoryConstraints)
-                {
-                    var isWithinBoundaries = constraint.LowerSpan.LowerValue <= ticket && ticket <= constraint.LowerSpan.UpperValue
-                        || constraint.UpperSpan.LowerValue <= ticket && ticket <= constraint.UpperSpan.UpperValue;
-
-                    if (!isWithinBoundaries)
-                    {
-                        return false;
-                    }
-                }
-                
                 return true;
             }
         }
