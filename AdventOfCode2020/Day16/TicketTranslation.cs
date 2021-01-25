@@ -8,7 +8,7 @@ namespace AdventOfCode2020.Day16
 {
     public class TicketTranslation
     {
-        private List<TicketConstraint> Constraints = new List<TicketConstraint>();
+        private readonly List<TicketConstraint> Constraints = new List<TicketConstraint>();
         private Ticket[] NearbyTickets;
         private Ticket PersonalTicket;
 

@@ -9883,6 +9883,51 @@ nearby tickets:
 55,2,20
 38,6,12";
 
+        public static char[,] Day17()
+        {
+            return Day17Converter(Day17Raw);
+        }
+        private const string Day17Raw = @".#######
+#######.
+###.###.
+#....###
+.#..##..
+#.#.###.
+###..###
+.#.#.##.";
+
+        public static char[,] Day17Sample()
+        {
+            return Day17Converter(Day17SampleRaw);
+        }
+
+        private static char[,] Day17Converter(string rawInput)
+        {
+            var rows = RawConverter(rawInput, new[] { Environment.NewLine });
+
+            var retVal = new char[rows.Length, rows[0].Length];
+            var row = 0;
+            var column = 0;
+            while (row < rows.Length)
+            {
+                while (column < rows[0].Length)
+                {
+                    retVal[row, column] = rows[row][column];
+
+                    column++;
+                }
+
+                row++;
+                column = 0;
+            }
+
+            return retVal;
+        }
+
+        private const string Day17SampleRaw = @".#.
+..#
+###";
+
         /// <summary>
         /// Method that takes the raw input of <see cref="Environment.NewLine"/> separated values and 
         /// converts it into an <see cref="IEnumerable{T}"/> list.

@@ -57,12 +57,22 @@ namespace AdventOfCode2020
             //var day15Part1 = Day15Part1(Inputs.Day15(), 2020);
             //var day15Part2 = Day15Part1(Inputs.Day15(), 30000000);
 
-            var day16Part1 = Day16Part1(Inputs.Day16);
+            //var day16Part1 = Day16Part1(Inputs.Day16);
+
+            var day17Part1 = Day17Part1(Inputs.Day17(), 6);
+        }
+
+        static int Day17Part1(char[,] initialState, int cycles)
+        {
+            var cc = new Day17.ConwayCube(initialState);
+            var state = cc.ProcessCycles(cycles);
+            var activeCubes = Day17.ConwayCube.ActiveCubes(state);
+            return activeCubes;
         }
 
         static int Day16Part1(string input)
         {
-            var tt = new AdventOfCode2020.Day16.TicketTranslation(input);
+            var tt = new Day16.TicketTranslation(input);
 
             return tt.ErrorRate();
         }
@@ -179,7 +189,7 @@ namespace AdventOfCode2020
         }
         static int Day7Part2_The_number_of_bags_contained_by(Dictionary<string, Dictionary<string, int>> rules, string bagColor)
         {
-            var container = new AdventOfCode2020.Day07.HandyHaversack(rules, bagColor);
+            var container = new Day07.HandyHaversack(rules, bagColor);
 
             return container.NestedCount();
         }
