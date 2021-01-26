@@ -59,7 +59,15 @@ namespace AdventOfCode2020
 
             //var day16Part1 = Day16Part1(Inputs.Day16);
 
-            var day17Part1 = Day17Part1(Inputs.Day17(), 6);
+            //var day17Part1 = Day17Part1(Inputs.Day17(), 6);
+
+            var day18Part1 = Day18Part1(Inputs.Day18());
+        }
+
+        static ulong Day18Part1(IEnumerable<string> inputs)
+        {
+            var oo = new Day18.OperationOrder(inputs);
+            return oo.EvaluationSum();
         }
 
         static int Day17Part1(char[,] initialState, int cycles)
