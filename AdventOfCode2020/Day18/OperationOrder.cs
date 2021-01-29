@@ -29,7 +29,6 @@ namespace AdventOfCode2020.Day18
                 var reversePolishNotation = ShuntingYardAlgorithm.Execute(expression, OperatorPredecence);
                 evaluated = ReversePolishNotationEvaluator.Evaluate(reversePolishNotation);
 
-                System.Diagnostics.Debug.WriteLine(expression + ", " + evaluated);
                 sum += evaluated;
             }
 
