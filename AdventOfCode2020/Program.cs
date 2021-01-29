@@ -61,12 +61,17 @@ namespace AdventOfCode2020
 
             //var day17Part1 = Day17Part1(Inputs.Day17(), 6);
 
-            var day18Part1 = Day18Part1(Inputs.Day18());
+            var opPrecedence = new Dictionary<char, int>()
+            {
+                {'+', 1 },
+                {'*', 1 }
+            };
+            var day18Part1 = Day18Part1(Inputs.Day18(), opPrecedence);
         }
 
-        static ulong Day18Part1(IEnumerable<string> inputs)
+        static ulong Day18Part1(IEnumerable<string> inputs, Dictionary<char, int> operatorPrecedence)
         {
-            var oo = new Day18.OperationOrder(inputs);
+            var oo = new Day18.OperationOrder(inputs, operatorPrecedence);
             return oo.EvaluationSum();
         }
 
