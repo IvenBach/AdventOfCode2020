@@ -56,6 +56,8 @@
     <Compile Include="Day17\Point3D.cs" />
     <Compile Include="Day17\ConwayCube.cs" />
     <Compile Include="Day18\OperationOrder.cs" />
+    <Compile Include="Day18\ReversePolishNotationEvaluator.cs" />
+    <Compile Include="Day18\ShuntingYardAlgorithm.cs" />
     <Compile Include="Day1\Day1Part1.cs" />
     <Compile Include="Day1\Day1Part2.cs" />
     <Compile Include="Day02\InputConverter.cs" />
@@ -74,6 +76,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Day18\Day18.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
