@@ -67,6 +67,7 @@ namespace AdventOfCode2020
                 {'*', 1 }
             };
             var day18Part1 = Day18(Inputs.Day18(), part1Precedence);
+            var day18Part1Tree = new Day18.OperationOrder(Inputs.Day18(), part1Precedence).ExpressionTreeEvaluationSum();
 
             var part2Precedence = new Dictionary<char, int>()
             {
@@ -74,12 +75,13 @@ namespace AdventOfCode2020
                 {'*', 1 }
             };
             var day18Part2 = Day18(Inputs.Day18(), part2Precedence);
+            var day18Part2Tree = new Day18.OperationOrder(Inputs.Day18(), part2Precedence).ExpressionTreeEvaluationSum();
         }
 
         static ulong Day18(IEnumerable<string> inputs, Dictionary<char, int> operatorPrecedence)
         {
             var oo = new Day18.OperationOrder(inputs, operatorPrecedence);
-            return oo.EvaluationSum();
+            return oo.ReversePolishNotationEvaluationSum();
         }
 
         static int Day17Part1(char[,] initialState, int cycles)

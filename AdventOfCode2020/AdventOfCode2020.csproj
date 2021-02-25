@@ -55,6 +55,7 @@
     <Compile Include="Day16\TicketTranslation.cs" />
     <Compile Include="Day17\Point3D.cs" />
     <Compile Include="Day17\ConwayCube.cs" />
+    <Compile Include="Day18\Node.cs" />
     <Compile Include="Day18\OperationOrder.cs" />
     <Compile Include="Day18\ReversePolishNotationEvaluator.cs" />
     <Compile Include="Day18\ShuntingYardAlgorithm.cs" />

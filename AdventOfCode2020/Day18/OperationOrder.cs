@@ -20,7 +20,7 @@ namespace AdventOfCode2020.Day18
         /// Evaluates each expression and returns the sum of all evaluations.
         /// </summary>
         /// <returns>Sum of all evaluations</returns>
-        public ulong EvaluationSum()
+        public ulong ReversePolishNotationEvaluationSum()
         {
             var sum = 0UL;
             ulong evaluated;
@@ -33,6 +33,21 @@ namespace AdventOfCode2020.Day18
             }
 
             return sum;
-        }        
+        }
+
+        public ulong ExpressionTreeEvaluationSum()
+        {
+            var sum = 0UL;
+            ulong evaluated;
+            foreach (var expression in Input)
+            {
+                var expressionTree = Node.BuildTree(expression, OperatorPredecence);
+                evaluated = Node.Evaluate(expressionTree);
+
+                sum += evaluated;
+            }
+
+            return sum;
+        }
     }
 }

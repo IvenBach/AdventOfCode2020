@@ -29,7 +29,7 @@ namespace TestsForAdventOfCode2020.Day18
 
             var oo = new AdventOfCode2020.Day18.OperationOrder(new List<string>() { input }, precedence);
 
-            var actual = oo.EvaluationSum();
+            var actual = oo.ReversePolishNotationEvaluationSum();
 
             Assert.AreEqual(expected, actual);
         }
@@ -53,7 +53,7 @@ namespace TestsForAdventOfCode2020.Day18
 
             var oo = new AdventOfCode2020.Day18.OperationOrder(new List<string>() { input }, precedence);
 
-            var actual = oo.EvaluationSum();
+            var actual = oo.ReversePolishNotationEvaluationSum();
 
             Assert.AreEqual(expected, actual);
         }
