@@ -41,8 +41,8 @@ namespace AdventOfCode2020.Day18
             ulong evaluated;
             foreach (var expression in Input)
             {
-                var expressionTree = Node.BuildTree(expression, OperatorPredecence);
-                evaluated = Node.Evaluate(expressionTree);
+                var expressionTree = ExpressionNode.BuildTree(expression, OperatorPredecence);
+                evaluated = (ulong)expressionTree.Value();
 
                 sum += evaluated;
             }

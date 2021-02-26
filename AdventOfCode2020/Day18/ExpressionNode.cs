@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AdventOfCode2020.Day18.Expressions.Abstract;
+using AdventOfCode2020.Day18.Expressions.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,45 +8,45 @@ using System.Threading.Tasks;
 
 namespace AdventOfCode2020.Day18
 {
-    public class Node
+    public class ExpressionNode
     {
-        public char Data { get; }
-        public Node Left { get; }
-        public Node Right { get; }
-
-        public Node(char data, Node left = null, Node right = null)
-        {
-            Data = data;
-            Left = left;
-            Right = right;
-        }
-
         /// <summary>
         /// Builds an expression tree from the string formula argument.
         /// </summary>
         /// <param name="s">Formula from which to build the tree.</param>
         /// <param name="operatorPriority">Contains operators and their priority for evaluation. Suppling a <see cref="null"/> value uses default operator order.</param>
-        /// <returns>Root <see cref="Node"/> of the expression tree.</returns>
-        public static Node BuildTree(string s, Dictionary<char, int> operatorPriority)
+        /// <returns>Root <see cref="Expression"/> of the expression tree.</returns>
+        public static Expression BuildTree(string s, Dictionary<char, int> operatorPriority)
         {
             if (operatorPriority == null)
             {
                 operatorPriority = DefaultOperatorPrecedence();
             }
 
-            var nodeStack = new Stack<Node>();
+            var nodeStack = new Stack<Expression>();
             var charStack = new Stack<char>();
 
-            foreach (var c in s)
+            for (int i = 0; i < s.Length; i++)
             {
+                char c = s[i];
                 if (c == ' ')
                 {
                     continue;
                 }
 
-                if ('0' <= c && c <= '9')
+                if (char.IsDigit(c))
                 {
-                    nodeStack.Push(new Node(c));
+                    var span = 0;
+                    while ((i + span + 1) < s.Length
+                        && char.IsDigit(s[i + span + 1]))
+                    {
+                        span++;
+                    }
+
+                    var number = int.Parse(s.Substring(i, span +1));
+                    
+                    i += span;
+                    nodeStack.Push(new IntegerExpression(number));
                     continue;
                 }
 
@@ -59,12 +61,15 @@ namespace AdventOfCode2020.Day18
                     while (charStack.Any()
                         && charStack.Peek() != '(')
                     {
+
                         var right = nodeStack.Pop();
                         var left = nodeStack.Pop();
-                        var node = new Node(charStack.Pop(), left, right);
+                        var node = BinaryExpression(charStack.Pop(), left, right);
 
                         nodeStack.Push(node);
                     }
+
+                    nodeStack.Push(new ParenthesizedExpression(nodeStack.Pop()));
 
                     charStack.Pop();
                     continue;
@@ -91,7 +96,7 @@ namespace AdventOfCode2020.Day18
                     {
                         var right = nodeStack.Pop();
                         var left = nodeStack.Pop();
-                        var node = new Node(charStack.Pop(), left, right);
+                        var node = BinaryExpression(charStack.Pop(), left, right);
 
                         nodeStack.Push(node);
                     }
@@ -104,12 +109,27 @@ namespace AdventOfCode2020.Day18
             {
                 var right = nodeStack.Pop();
                 var left = nodeStack.Pop();
-                var node = new Node(charStack.Pop(), left, right);
+                var node = BinaryExpression(charStack.Pop(), left, right);
 
                 nodeStack.Push(node);
             }
 
             return nodeStack.Pop();
+        }
+
+        private static BinaryExpression BinaryExpression(char oper, Expression left, Expression right)
+        {
+            if (oper == '+')
+            {
+                return new AddExpression(left, right);
+            }
+
+            if (oper == '*')
+            {
+                return new MultiplyExpression(left, right);
+            }
+
+            throw new ArgumentException();
         }
 
         private static Dictionary<char, int> DefaultOperatorPrecedence()
@@ -122,27 +142,6 @@ namespace AdventOfCode2020.Day18
                 { '*', 2 },
                 { '^', 3 }
             };
-        }
-
-        public static ulong Evaluate(Node root)
-        {
-            if (root.Left != null && root.Right != null)
-            {
-                var left = Evaluate(root.Left);
-                var right = Evaluate(root.Right);
-
-                switch (root.Data)
-                {
-                    case '+':
-                        return left + right;
-                    case '*':
-                        return left * right;
-                    default:
-                        throw new ArgumentException();
-                }
-            }
-
-            return ulong.Parse(root.Data.ToString());
         }
     }
 }
