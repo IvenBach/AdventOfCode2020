@@ -12,6 +12,22 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -21,7 +37,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>0</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -55,13 +71,18 @@
     <Compile Include="Day16\TicketTranslation.cs" />
     <Compile Include="Day17\Point3D.cs" />
     <Compile Include="Day17\ConwayCube.cs" />
-    <Compile Include="Day18\Expressions\Abstract\BinaryExpression.cs" />
-    <Compile Include="Day18\Expressions\Abstract\Expression.cs" />
-    <Compile Include="Day18\Expressions\Concrete\AddExpression.cs" />
-    <Compile Include="Day18\Expressions\Concrete\IntegerExpression.cs" />
-    <Compile Include="Day18\Expressions\Concrete\MultiplyExpression.cs" />
-    <Compile Include="Day18\Expressions\Concrete\ParenthesizedExpression.cs" />
-    <Compile Include="Day18\ExpressionNode.cs" />
+    <Compile Include="Day18\MDoerner Example\Context\BinaryOperationContext.cs" />
+    <Compile Include="Day18\MDoerner Example\Context\ExpressionContext.cs" />
+    <Compile Include="Day18\MDoerner Example\Context\FormulaLexer.cs" />
+    <Compile Include="Day18\MDoerner Example\Context\IntegerContext.cs" />
+    <Compile Include="Day18\MDoerner Example\Context\ParenthesizedExpressionContext.cs" />
+    <Compile Include="Day18\MDoerner Example\Parser\Abstract\FormulaParserBase.cs" />
+    <Compile Include="Day18\MDoerner Example\Parser\Concrete\Parser.cs" />
+    <Compile Include="Day18\MDoerner Example\Tokens\Abstract\IToken.cs" />
+    <Compile Include="Day18\MDoerner Example\Context\ParserContext.cs" />
+    <Compile Include="Day18\MDoerner Example\Tokens\Concrete\IntegerToken.cs" />
+    <Compile Include="Day18\MDoerner Example\Tokens\Concrete\Token.cs" />
+    <Compile Include="Day18\MDoerner Example\TokenType.cs" />
     <Compile Include="Day18\OperationOrder.cs" />
     <Compile Include="Day18\ReversePolishNotationEvaluator.cs" />
     <Compile Include="Day18\ShuntingYardAlgorithm.cs" />
@@ -86,5 +107,18 @@
   <ItemGroup>
     <Content Include="Day18\Day18.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
