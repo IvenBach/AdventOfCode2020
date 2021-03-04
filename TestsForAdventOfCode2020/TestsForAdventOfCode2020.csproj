@@ -71,12 +71,8 @@
     <Compile Include="Day09\TestEncodingError.cs" />
     <Compile Include="Day16\TestTicketTranslation.cs" />
     <Compile Include="Day17\TestConwayCubes.cs" />
-    <Compile Include="Day18\TestAddExpression.cs" />
-    <Compile Include="Day18\TestExpressionTree.cs" />
-    <Compile Include="Day18\TestIntegerExpression.cs" />
-    <Compile Include="Day18\TestMultiplyExpression.cs" />
+    <Compile Include="Day18\TestExpressionContext.cs" />
     <Compile Include="Day18\TestOperationOrder.cs" />
-    <Compile Include="Day18\TestParenthesizedExpression.cs" />
     <Compile Include="Day18\TestReversePolishNotationEvaluator.cs" />
     <Compile Include="Day18\TestShuntingYardAlgorithm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

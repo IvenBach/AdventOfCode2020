@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdventOfCode2020.Day18.MDoerner_Example;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -35,16 +36,14 @@ namespace AdventOfCode2020.Day18
             return sum;
         }
 
-        public ulong ExpressionTreeEvaluationSum()
+        public ulong MDoernerExpressionEvaluationSum()
         {
-            var sum = 0UL;
-            ulong evaluated;
-            foreach (var expression in Input)
+            var parser = new AdventOfCode2020.Day18.MDoerner_Example.Parser.Concrete.Parser();
+            ulong sum = 0;
+            foreach (var line in Input)
             {
-                var expressionTree = ExpressionNode.BuildTree(expression, OperatorPredecence);
-                evaluated = (ulong)expressionTree.Value();
-
-                sum += evaluated;
+                var expression = parser.Parse(line);
+                sum += expression.Evaluate(OperatorPredecence);
             }
 
             return sum;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AdventOfCode2020.Day18.MDoerner_Example;
 
 namespace AdventOfCode2020
 {
@@ -66,22 +67,16 @@ namespace AdventOfCode2020
                 {'+', 1 },
                 {'*', 1 }
             };
-            var day18Part1 = Day18(Inputs.Day18(), part1Precedence);
-            var day18Part1Tree = new Day18.OperationOrder(Inputs.Day18(), part1Precedence).ExpressionTreeEvaluationSum();
+            var day18Part1 = new Day18.OperationOrder(Inputs.Day18(), part1Precedence).ReversePolishNotationEvaluationSum();
+            var day18Part1MDoerner = new Day18.OperationOrder(Inputs.Day18(), part1Precedence).MDoernerExpressionEvaluationSum();
 
             var part2Precedence = new Dictionary<char, int>()
             {
                 {'+', 2 },
                 {'*', 1 }
             };
-            var day18Part2 = Day18(Inputs.Day18(), part2Precedence);
-            var day18Part2Tree = new Day18.OperationOrder(Inputs.Day18(), part2Precedence).ExpressionTreeEvaluationSum();
-        }
-
-        static ulong Day18(IEnumerable<string> inputs, Dictionary<char, int> operatorPrecedence)
-        {
-            var oo = new Day18.OperationOrder(inputs, operatorPrecedence);
-            return oo.ReversePolishNotationEvaluationSum();
+            var day18Part2 = new Day18.OperationOrder(Inputs.Day18(), part2Precedence).ReversePolishNotationEvaluationSum();
+            var day18Part2MDoerner = new Day18.OperationOrder(Inputs.Day18(), part2Precedence).MDoernerExpressionEvaluationSum();
         }
 
         static int Day17Part1(char[,] initialState, int cycles)
